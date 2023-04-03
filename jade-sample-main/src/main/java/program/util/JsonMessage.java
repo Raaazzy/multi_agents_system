@@ -6,7 +6,7 @@ import lombok.SneakyThrows;
 
 public class JsonMessage extends ACLMessage {
 
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    public static final ObjectMapper objectMapper = new ObjectMapper();
 
     public JsonMessage(int cfp) {
         super(cfp);
