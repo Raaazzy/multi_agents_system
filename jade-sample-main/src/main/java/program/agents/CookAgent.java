@@ -1,5 +1,6 @@
 package program.agents;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -7,6 +8,12 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import program.behaviour.ReceiveMessageBehaviour;
 import program.configuration.JadeAgent;
+import program.model.CookersList;
+
+import java.io.File;
+import java.io.IOException;
+
+import static program.util.JsonMessage.objectMapper;
 
 @JadeAgent(number = 1)
 public class CookAgent  extends Agent {
@@ -40,5 +47,10 @@ public class CookAgent  extends Agent {
         }
         // Print out a dismissal message
         System.out.println("CookAgent " + getAID().getName() + " terminating");
+    }
+
+    public void parser() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        CookersList cookersList = objectMapper.readValue(new File("./src/main/files/cookers_list.txt"), CookersList.class);
     }
 }

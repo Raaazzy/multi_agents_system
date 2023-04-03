@@ -1,5 +1,6 @@
 package program.agents;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -7,6 +8,11 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import program.behaviour.ReceiveMessageBehaviour;
 import program.configuration.JadeAgent;
+import program.model.CookersList;
+import program.model.ProductTypeList;
+
+import java.io.File;
+import java.io.IOException;
 
 @JadeAgent(number = 1)
 public class ProductAgent extends Agent {
@@ -41,5 +47,10 @@ public class ProductAgent extends Agent {
         }
         // Print out a dismissal message
         System.out.println("ProductAgent " + getAID().getName() + " terminating");
+    }
+
+    public void parser() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ProductTypeList productTypeList = objectMapper.readValue(new File("./src/main/files/products_types.txt"), ProductTypeList.class);
     }
 }

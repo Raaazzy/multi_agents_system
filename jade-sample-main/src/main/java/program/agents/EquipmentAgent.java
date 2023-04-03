@@ -1,5 +1,6 @@
 package program.agents;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jade.core.Agent;
 import jade.domain.DFService;
 import jade.domain.FIPAAgentManagement.DFAgentDescription;
@@ -7,6 +8,13 @@ import jade.domain.FIPAAgentManagement.ServiceDescription;
 import jade.domain.FIPAException;
 import program.behaviour.ReceiveMessageBehaviour;
 import program.configuration.JadeAgent;
+import program.model.CookersList;
+import program.model.KitchenEquipment;
+import program.model.KitchenEquipmentList;
+import program.model.KitchenEquipmentTypesList;
+
+import java.io.File;
+import java.io.IOException;
 
 @JadeAgent(number = 1)
 public class EquipmentAgent  extends Agent {
@@ -26,8 +34,6 @@ public class EquipmentAgent  extends Agent {
         } catch (FIPAException fe) {
             fe.printStackTrace();
         }
-
-
         addBehaviour(new ReceiveMessageBehaviour());
     }
 
@@ -41,5 +47,15 @@ public class EquipmentAgent  extends Agent {
         }
         // Print out a dismissal message
         System.out.println("EquipmentAgent " + getAID().getName() + " terminating");
+    }
+
+    public void parserKitchenEquipmentList() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        KitchenEquipmentList kitchenEquipmentList = objectMapper.readValue(new File("./src/main/files/kitchen_equipment_list.txt"), KitchenEquipmentList.class);
+    }
+
+    public void parserKitchenEquipmentTypesList() throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        KitchenEquipmentTypesList kitchenEquipmentTypesList = objectMapper.readValue(new File("./src/main/files/kitchen_equipment_types.txt"), KitchenEquipmentTypesList.class);
     }
 }
